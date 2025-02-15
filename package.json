@@ -1,0 +1,45 @@
+{
+  "name": "gg2-system",
+  "version": "1.0.0",
+  "description": "Esse é um sistema de testes do GG2",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copy": "echo ok",
+    "start": "npm run copy;webpack serve",
+    "build": "npm run copy;webpack"
+  },
+  "author": "Gihovani Filipp <gihovani@gg2.com.br>",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "babel-loader": "^9.2.1",
+    "html-webpack-plugin": "^5.6.3",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  },
+  "jshintConfig": {
+    "devel": true,
+    "browser": true,
+    "undef": true,
+    "unused": true,
+    "esversion": 8,
+    "globals": {
+      "indexedDB": true,
+      "caches": true,
+      "self": true,
+      "module": true,
+      "require": true,
+      "__dirname": true,
+      "__filename": true,
+      "exports": true,
+      "MY_GLOBAL": true,
+      "navigator": true,
+      "console": true,
+      "alert": true,
+      "$": true
+    }
+  }
+}

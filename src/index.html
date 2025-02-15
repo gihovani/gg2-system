@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt" dir="ltr">
+<head>
+    <base href="/">
+    <title>Cadastro de Clientes</title>
+    <meta name="viewport"
+          content="initial-scale=1,minimum-scale=1,width=device-width,interactive-widget=resizes-content">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Cadastro de Clientes</h1>
+        <form id="customerForm">
+            <input type="hidden" id="id" name="id">
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label" for="name">Nome:</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <input class="input" type="text" id="name" name="name" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                    <label class="label" for="email">E-mail:</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <input class="input" type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-grouped is-grouped-right">
+                <div class="control is-fullwidth">
+                    <button class="button is-parent is-hidden btn-new" type="button">Novo</button>
+                    <button class="button is-primary" type="submit">Salvar</button>
+                </div>
+            </div>
+        </form>
+        <h2 class="subtitle">Lista de Clientes</h2>
+        <table class="table is-bordered is-fullwidth">
+            <thead>
+            <tr>
+                <th><abbr title="ID">ID</abbr></th>
+                <th><abbr title="Name">Nome</abbr></th>
+                <th><abbr title="E-mail">E-mail</abbr></th>
+                <th><abbr title="Actions">#</abbr></th>
+            </tr>
+            </thead>
+            <tbody id="customerList">
+            <tr>
+                <td colspan="4">nenhum registro encontrado.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>
