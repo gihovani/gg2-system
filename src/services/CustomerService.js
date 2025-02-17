@@ -3,11 +3,11 @@ import Customer from '../models/Customer.js';
 
 class CustomerService {
     constructor() {
-        this.url = 'http://localhost:8888/customer';
+        this.url = 'http://localhost:8888/customers';
     }
 
     async read(id = null) {
-        const url = (id) ? `${this.url}?id=${id}` : this.url;
+        const url = (id) ? `${this.url}/${id}` : this.url;
         try {
             const response = await api.get(url);
             if (id) {
@@ -34,7 +34,7 @@ class CustomerService {
 
     async update(id, customer) {
         try {
-            const updatedCustomer = await api.put(`${this.url}?id=${id}`, customer);
+            const updatedCustomer = await api.put(`${this.url}/${id}`, customer);
             return new Customer(updatedCustomer);
         } catch (error) {
             console.error('Error updating customer:', error);
@@ -44,7 +44,7 @@ class CustomerService {
 
     async delete(id) {
         try {
-            const createdCustomer = await api.delete(`${this.url}?id=${id}`);
+            const createdCustomer = await api.delete(`${this.url}/${id}`);
             return new Customer(createdCustomer);
         } catch (error) {
             console.error('Error deleting customer:', error);
