@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy": "echo ok",
+    "api": "php -S localhost:8888 api/server.php",
     "start": "npm run copy;webpack serve",
     "build": "npm run copy;webpack"
   },

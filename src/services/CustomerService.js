@@ -3,7 +3,7 @@ import Customer from '../models/Customer.js';
 
 class CustomerService {
     constructor() {
-        this.url = 'http://localhost/gg2-system/api/customer.php';
+        this.url = 'http://localhost:8888/customer';
     }
 
     async read(id = null) {
