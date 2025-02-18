@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 define('BP', dirname(__FILE__) . '/');
 
 spl_autoload_register(function ($className) {
@@ -8,23 +9,23 @@ spl_autoload_register(function ($className) {
         require_once $filePath;
     }
 });
-$container = new \Api\Container();
+$container = new \Api\Utils\Container();
 $container->set('Request', function () {
-    return $request = new \Api\Request();
+    return $request = new \Api\Utils\Request();
 });
 $container->set('CustomerRepositoryInterface', function () {
-    return new \Api\Repositories\JsonCustomerRepository(BP . 'data/customers.json');
+    return new \Api\Customer\Repositories\JsonCustomerRepository(BP . 'data/customers.json');
 });
 $container->set('CustomerValidator', function () {
-    return new \Api\Validators\CustomerValidator();
+    return new \Api\Customer\Validators\CustomerValidator();
 });
 $container->set('CustomerController', function () use ($container) {
     $customerRepository = $container->get('CustomerRepositoryInterface');
     $customerValidator = $container->get('CustomerValidator');
     $request = $container->get('Request');
-    return new \Api\Controllers\CustomerController($customerRepository, $customerValidator, $request);
+    return new \Api\Customer\Controllers\CustomerController($customerRepository, $customerValidator, $request);
 });
-$router = new \Api\Router($container->get('Request'));
+$router = new \Api\Utils\Router($container->get('Request'));
 $router->addRoute('GET', '/customers', 'CustomerController', 'index');
 $router->addRoute('GET', '/customers/{id}', 'CustomerController', 'show');
 $router->addRoute('POST', '/customers', 'CustomerController', 'store');

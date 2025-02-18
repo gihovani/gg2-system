@@ -1,6 +1,8 @@
 <?php
+declare(strict_types=1);
 
-namespace Api;
+namespace Api\Utils;
+
 class Router
 {
     private array $routes = [];
