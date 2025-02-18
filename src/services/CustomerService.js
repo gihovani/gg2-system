@@ -17,7 +17,6 @@ class CustomerService {
                 return new Customer(customer);
             });
         } catch (error) {
-            console.error('Error getting customer:', error);
             throw error;
         }
     }
@@ -27,7 +26,6 @@ class CustomerService {
             const createdCustomer = await api.post(this.url, customer);
             return new Customer(createdCustomer);
         } catch (error) {
-            console.error('Error creating customer:', error);
             throw error;
         }
     }
@@ -37,7 +35,6 @@ class CustomerService {
             const updatedCustomer = await api.put(`${this.url}/${id}`, customer);
             return new Customer(updatedCustomer);
         } catch (error) {
-            console.error('Error updating customer:', error);
             throw error;
         }
     }
@@ -47,7 +44,6 @@ class CustomerService {
             const createdCustomer = await api.delete(`${this.url}/${id}`);
             return new Customer(createdCustomer);
         } catch (error) {
-            console.error('Error deleting customer:', error);
             throw error;
         }
     }

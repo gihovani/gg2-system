@@ -7,7 +7,7 @@ use Api\Base\Repositories\RepositoryInterface;
 use Api\Base\Validators\ValidatorInterface;
 use api\Utils\Request;
 
-class Controller implements ControllerInterface
+abstract class Controller implements ControllerInterface
 {
     private RepositoryInterface $repository;
     private ValidatorInterface $validator;
@@ -31,8 +31,8 @@ class Controller implements ControllerInterface
             'message' => ''
         ];
         if ($code === 400) {
-            $error['message'] = 'Invalid object data';
-            $error['errors'] = $this->validator->getErros();
+            $error['message'] = $this->validator->message();
+            $error['errors'] = $this->validator->errors();
         } else if ($code === 404) {
             $error['message'] = 'Object not found';
         }

@@ -30,10 +30,8 @@ class CustomerForm {
             const customer = await CustomerService.create({name, email});
             this.reset();
             onCustomerCreated.trigger('success', customer);
-            alert('Customer created successfully!');
         } catch (error) {
             onCustomerCreated.trigger('error', error);
-            alert('Error creating customer. Check the console for more details.');
         }
     }
 
@@ -45,10 +43,8 @@ class CustomerForm {
             const customer = await CustomerService.update(id, {name, email});
             this.reset();
             onCustomerUpdated.trigger('success', customer);
-            alert('Customer updated successfully!');
         } catch (error) {
             onCustomerUpdated.trigger('error', error);
-            alert('Error updating customer. Check the console for more details.');
         }
     }
 

@@ -7,15 +7,8 @@ use Api\Base\Validators\Validator;
 
 class CustomerValidator extends Validator
 {
-    public function validate(array $data): bool
+    public function __construct()
     {
-        $this->errors = [];
-        if (empty($data['name'])) {
-            $this->errors['name'] = 'Name is required';
-        }
-        if (empty($data['email'])) {
-            $this->errors['email'] = 'E-mail is required';
-        }
-        return parent::validate($data);
+        parent::__construct(['name' => 'required|min:3|max:100', 'email' => 'required|email']);
     }
 }

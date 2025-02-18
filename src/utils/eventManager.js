@@ -1,10 +1,10 @@
 class EventManager {
     constructor() {
-        this.events = {
-            'error': (error) => {
-                console.error('Error:', error);
-            }
-        };
+        this.events = {};
+        this.on('error', (error) => {
+            const message = (error.responseJSON && error.responseJSON.message) ? error.responseJSON.message : 'Ocorreu um erro inesperado!';
+            alert(message);
+        });
     }
 
     on(eventName, callback) {

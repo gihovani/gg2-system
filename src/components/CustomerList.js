@@ -13,15 +13,12 @@ class CustomerList {
         this.customers = [];
         this.loadData();
         onCustomerCreated.on('success', (customer) => {
-            console.log('customerCreatedEvent on success', customer);
             this.addCustomerToList(customer);
         });
         onCustomerUpdated.on('success', (customer) => {
-            console.log('customerUpdatedEvent on success', customer);
             this.updateCustomerToList(customer);
         });
         onCustomerDeleted.on('success', (customer) => {
-            console.log('customerDeletedEvent on success', customer);
             this.deleteCustomerToList(customer);
         });
     }
@@ -32,9 +29,7 @@ class CustomerList {
             this.updateList();
             onCustomerListLoaded.trigger('success', this.customers);
         } catch (error) {
-            console.error('Error:', error);
-            alert(`Não foi possível carregar a lista de clientes\nOlhe no console para mais detalhes.`);
-            onCustomerListLoaded.trigger('error', this.customers);
+            onCustomerListLoaded.trigger('error', error);
         }
     }
 
@@ -54,10 +49,8 @@ class CustomerList {
             try {
                 const customer = await CustomerService.delete(id);
                 onCustomerDeleted.trigger('success', customer);
-                alert(`Cliente (${customer.name}) removido com sucesso!`);
             } catch (error) {
                 onCustomerDeleted.trigger('error', error);
-                alert(`Não foi possível remover o cliente id: ${customer.id}\nOlhe no console para mais detalhes.`);
             }
         });
         tdButton.append([btnEdit, btnRemove]);

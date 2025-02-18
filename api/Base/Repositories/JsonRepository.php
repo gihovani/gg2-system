@@ -5,7 +5,7 @@ namespace Api\Base\Repositories;
 
 use Api\Base\Models\Model;
 
-class JsonRepository implements RepositoryInterface
+abstract class JsonRepository implements RepositoryInterface
 {
     private string $file;
     private string $modelClassName;

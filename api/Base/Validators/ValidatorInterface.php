@@ -7,5 +7,7 @@ interface ValidatorInterface
 {
     public function validate(array $data): bool;
 
-    public function getErros(): array;
+    public function errors(): array;
+
+    public function message(): string;
 }
