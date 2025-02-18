@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace Api\Base\Models;
-interface ModelInterface extends \JsonSerializable
+interface ModelInterface
 {
     public static function create(array $data): ModelInterface;
 }
