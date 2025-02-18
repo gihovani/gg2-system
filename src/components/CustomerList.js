@@ -5,7 +5,7 @@ import {
     onCustomerSelected,
     onCustomerDeleted,
     onCustomerListLoaded
-} from '../utils/eventManager.js';
+} from '../events/customer.js';
 
 class CustomerList {
     constructor(listId) {

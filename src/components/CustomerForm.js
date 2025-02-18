@@ -1,5 +1,5 @@
 import CustomerService from '../services/CustomerService.js';
-import {onCustomerCreated, onCustomerUpdated, onCustomerSelected} from '../utils/eventManager.js';
+import {onCustomerCreated, onCustomerUpdated, onCustomerSelected} from '../events/customer.js';
 
 class CustomerForm {
     constructor(formId) {
