@@ -8,10 +8,34 @@ import {
 } from '../events/customer.js';
 
 class CustomerList {
-    constructor(listId) {
-        this.list = $(listId);
+    constructor() {
+        this.list = '';
+    }
+
+    async render() {
+        this.list = $(`<h2 class="subtitle">Lista de Clientes</h2>
+        <table class="table is-bordered is-fullwidth">
+            <thead>
+            <tr>
+                <th><abbr title="ID">ID</abbr></th>
+                <th><abbr title="Name">Nome</abbr></th>
+                <th><abbr title="E-mail">E-mail</abbr></th>
+                <th><abbr title="Actions">#</abbr></th>
+            </tr>
+            </thead>
+            <tbody id="customerList">
+            <tr>
+                <td colspan="4">Nenhum dado encontrado.</td>
+            </tr>
+            </tbody>
+        </table>`);
         this.customers = [];
-        this.loadData();
+        await this.loadData();
+        this.bindEvents();
+        return this.list;
+    }
+
+    bindEvents() {
         onCustomerCreated.on('success', (customer) => {
             this.addCustomerToList(customer);
         });
@@ -59,9 +83,10 @@ class CustomerList {
     }
 
     updateList() {
-        this.list.empty();
+        const list = this.list.find('tbody#customerList');
+        list.empty();
         this.customers.forEach(customer => {
-            this.list.append(this.htmlItem(customer));
+            list.append(this.htmlItem(customer));
         });
     }
 

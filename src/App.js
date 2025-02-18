@@ -1,7 +1,6 @@
-import CustomerForm from './components/CustomerForm.js';
-import CustomerList from './components/CustomerList.js';
+import {MainScreen} from './screens/MainScreen.js';
 
 $(() => {
-    new CustomerForm('#customerForm');
-    new CustomerList('#customerList');
+    const mainScreen = new MainScreen($('#app'));
+    mainScreen.render();
 });
