@@ -13,7 +13,7 @@ export class Menu implements IComponent {
 
     render(): Promise<JQuery<HTMLElement> | HTMLElement> {
         this.nav = $(`
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar container" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="#" data-link="home">
       <img src="assets/imgs/logo.png" alt="Logo">
@@ -43,29 +43,33 @@ export class Menu implements IComponent {
 
     bindEvents() {
         const navBurger = this.nav.find('#menu');
-        if (navBurger.length) {
-            navBurger.on('click', () => {
-                const target = navBurger.data('target');
-                const $target = $('#' + target);
-
-                navBurger.toggleClass('is-active');
-                $target.toggleClass('is-active');
-            });
+        if (!navBurger.length) {
+            return;
         }
+        const target = navBurger.data('target');
+        const $target = this.nav.find(`#${target}`);
+        const closeNavBurger = () => {
+            navBurger.removeClass('is-active');
+            $target.removeClass('is-active');
+        };
+        navBurger.on('click', () => {
+            navBurger.toggleClass('is-active');
+            $target.toggleClass('is-active');
+        });
         this.nav.find('[data-link="home"]').on('click', () => {
-            navBurger.trigger('click');
+            closeNavBurger();
             onScreenSetContent.trigger('success', new Home());
         });
         this.nav.find(`[data-link="customer-create"]`).on('click', () => {
-            navBurger.trigger('click');
+            closeNavBurger();
             onScreenSetContent.trigger('success', new CustomerForm());
         });
         this.nav.find(`[data-link="customer-list"]`).on('click', () => {
-            navBurger.trigger('click');
+            closeNavBurger();
             onScreenSetContent.trigger('success', new CustomerList());
         });
         this.nav.find(`[data-link="contact-form"]`).on('click', () => {
-            navBurger.trigger('click');
+            closeNavBurger();
             onScreenSetContent.trigger('success', new Home());
         });
     }
