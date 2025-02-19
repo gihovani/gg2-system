@@ -1,9 +1,17 @@
-export class Menu {
+import {IComponent} from "./IComponent";
+import {Home} from "./Home";
+import CustomerForm from "./CustomerForm";
+import CustomerList from "./CustomerList";
+import {onScreenSetContent} from "../events/screen";
+
+export class Menu implements IComponent {
+    private nav: JQuery<HTMLElement>;
+
     constructor() {
         this.nav = $('<nav></nav>');
     }
 
-    render() {
+    render(): Promise<JQuery<HTMLElement> | HTMLElement> {
         this.nav = $(`
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
@@ -27,12 +35,15 @@ export class Menu {
   </div>
 </nav>
     `);
-        return this.nav;
+        return new Promise(resolve => {
+            this.bindEvents();
+            resolve(this.nav);
+        });
     }
 
-    bindEvents(callbacks) {
+    bindEvents() {
         const navBurger = this.nav.find('#menu');
-        if (navBurger.length > 0) {
+        if (navBurger.length) {
             navBurger.on('click', () => {
                 const target = navBurger.data('target');
                 const $target = $('#' + target);
@@ -41,12 +52,21 @@ export class Menu {
                 $target.toggleClass('is-active');
             });
         }
-        for (const id in callbacks) {
-            const callback = callbacks[id];
-            this.nav.find(`[data-link="${id}"]`).on('click', () => {
-                callback();
-                navBurger.trigger('click');
-            });
-        }
+        this.nav.find('[data-link="home"]').on('click', () => {
+            navBurger.trigger('click');
+            onScreenSetContent.trigger('success', new Home());
+        });
+        this.nav.find(`[data-link="customer-create"]`).on('click', () => {
+            navBurger.trigger('click');
+            onScreenSetContent.trigger('success', new CustomerForm());
+        });
+        this.nav.find(`[data-link="customer-list"]`).on('click', () => {
+            navBurger.trigger('click');
+            onScreenSetContent.trigger('success', new CustomerList());
+        });
+        this.nav.find(`[data-link="contact-form"]`).on('click', () => {
+            navBurger.trigger('click');
+            onScreenSetContent.trigger('success', new Home());
+        });
     }
 }

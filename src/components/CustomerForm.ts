@@ -1,13 +1,23 @@
-import CustomerService from '../services/CustomerService.js';
-import {onCustomerCreated, onCustomerUpdated, onCustomerSelected} from '../events/customer.js';
+import {onCustomerCreated, onCustomerUpdated} from '../events/customer';
+import {DataComponent, IComponent} from './IComponent';
+import CustomerService from "../services/CustomerService";
 
-class CustomerForm {
+class CustomerForm extends DataComponent implements IComponent {
+    private form: JQuery<HTMLFormElement>;
+    private id: JQuery<HTMLInputElement>;
+    private name: JQuery<HTMLInputElement>;
+    private email: JQuery<HTMLInputElement>;
+    private btnNew: JQuery<HTMLInputElement>;
+    private customerService: CustomerService;
+
     constructor() {
+        super();
         this.form = $('<form></form>');
         this.id = $('<input />');
         this.name = $('<input />');
         this.email = $('<input />');
         this.btnNew = $('<button></button>');
+        this.customerService = new CustomerService();
     }
 
     reset() {
@@ -19,10 +29,10 @@ class CustomerForm {
     }
 
     async create() {
-        const name = this.name.val();
-        const email = this.email.val();
+        const name = <string>this.name.val();
+        const email = <string>this.email.val();
         try {
-            const customer = await CustomerService.create({name, email});
+            const customer = await this.customerService.create({id: '', name, email});
             this.reset();
             onCustomerCreated.trigger('success', customer);
         } catch (error) {
@@ -31,11 +41,11 @@ class CustomerForm {
     }
 
     async update() {
-        const id = $('#id').val();
-        const name = $('#name').val();
-        const email = $('#email').val();
+        const id = <string>this.id.val();
+        const name = <string>this.name.val();
+        const email = <string>this.email.val();
         try {
-            const customer = await CustomerService.update(id, {name, email});
+            const customer = await this.customerService.update(id, {id, name, email});
             this.reset();
             onCustomerUpdated.trigger('success', customer);
         } catch (error) {
@@ -43,7 +53,7 @@ class CustomerForm {
         }
     }
 
-    async handleSubmit(event) {
+    async handleSubmit(event: Event) {
         event.preventDefault();
         const id = $('#id').val();
         if (id) {
@@ -52,7 +62,7 @@ class CustomerForm {
         return await this.create();
     }
 
-    render() {
+    render(): Promise<JQuery<HTMLElement>> {
         this.form = $(`<form id="customerForm">
             <h1 class="title">Cadastro de Clientes</h1>
             <input type="hidden" id="id" name="id">
@@ -87,23 +97,26 @@ class CustomerForm {
                 </div>
             </div>
         </form>`);
-        this.btnNew = this.form.find('button.btn-new');
-        this.id = this.form.find('#id');
-        this.name = this.form.find('#name');
-        this.email = this.form.find('#email');
-        this.bindEvents();
-        return this.form;
+        return new Promise<JQuery<HTMLElement>>(resolve => {
+            this.btnNew = this.form.find('button.btn-new');
+            this.id = this.form.find('#id');
+            this.name = this.form.find('#name');
+            this.email = this.form.find('#email');
+
+            if (this.data.id) {
+                this.id.val(this.data.id ?? '');
+                this.name.val(this.data.name ?? '');
+                this.email.val(this.data.email ?? '');
+                this.btnNew.removeClass('is-hidden');
+            }
+            this.bindEvents();
+            resolve(this.form);
+        });
     }
 
     bindEvents() {
         this.btnNew.on('click', this.reset.bind(this));
         this.form.on('submit', this.handleSubmit.bind(this));
-        onCustomerSelected.on('success', (customer) => {
-            this.id.val(customer.id);
-            this.name.val(customer.name);
-            this.email.val(customer.email);
-            this.btnNew.removeClass('is-hidden');
-        });
     }
 }
 

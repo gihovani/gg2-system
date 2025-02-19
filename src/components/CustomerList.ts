@@ -1,18 +1,25 @@
-import CustomerService from '../services/CustomerService.js';
+import CustomerService from '../services/CustomerService';
 import {
     onCustomerCreated,
     onCustomerUpdated,
     onCustomerSelected,
     onCustomerDeleted,
     onCustomerListLoaded
-} from '../events/customer.js';
+} from '../events/customer';
+import Customer from "../models/Customer";
+import {IComponent} from "./IComponent";
 
-class CustomerList {
+class CustomerList implements IComponent {
+    private list: JQuery<HTMLElement>;
+    private customers: Customer[] = [];
+    private customerService: CustomerService;
+
     constructor() {
-        this.list = '';
+        this.list = $('');
+        this.customerService = new CustomerService();
     }
 
-    async render() {
+    render(): Promise<JQuery<HTMLElement>> {
         this.list = $(`<h2 class="subtitle">Lista de Clientes</h2>
         <table class="table is-bordered is-fullwidth">
             <thead>
@@ -29,27 +36,29 @@ class CustomerList {
             </tr>
             </tbody>
         </table>`);
-        this.customers = [];
-        await this.loadData();
-        this.bindEvents();
-        return this.list;
+        return new Promise<JQuery<HTMLElement>>(async (resolve) => {
+            this.customers = [];
+            await this.loadData();
+            this.bindEvents();
+            resolve(this.list);
+        });
     }
 
     bindEvents() {
-        onCustomerCreated.on('success', (customer) => {
-            this.addCustomerToList(customer);
-        });
-        onCustomerUpdated.on('success', (customer) => {
-            this.updateCustomerToList(customer);
-        });
-        onCustomerDeleted.on('success', (customer) => {
+        // onCustomerCreated.on('success', (customer: Customer) => {
+        //     this.addCustomerToList(customer);
+        // });
+        // onCustomerUpdated.on('success', (customer: Customer) => {
+        //     this.updateCustomerToList(customer);
+        // });
+        onCustomerDeleted.on('success', (customer: Customer) => {
             this.deleteCustomerToList(customer);
         });
     }
 
     async loadData() {
         try {
-            this.customers = await CustomerService.read();
+            this.customers = <Customer[]>(await this.customerService.read());
             this.updateList();
             onCustomerListLoaded.trigger('success', this.customers);
         } catch (error) {
@@ -57,10 +66,10 @@ class CustomerList {
         }
     }
 
-    htmlItem(customer) {
-        const id = customer.id;
+    htmlItem(customer: Customer) {
+        const id = customer.id ?? '';
         const tr = $('<tr></tr>');
-        const tdId = $('<td></td>').text(customer.id);
+        const tdId = $('<td></td>').text(id);
         const tdName = $('<td></td>').text(customer.name);
         const tdEmail = $('<td></td>').text(customer.email);
         const btnEdit = $('<button></button>').text('Alterar');
@@ -71,7 +80,7 @@ class CustomerList {
         const btnRemove = $('<button></button>').text('Apagar');
         btnRemove.on('click', async () => {
             try {
-                const customer = await CustomerService.delete(id);
+                const customer = await this.customerService.delete(id);
                 onCustomerDeleted.trigger('success', customer);
             } catch (error) {
                 onCustomerDeleted.trigger('error', error);
@@ -90,12 +99,12 @@ class CustomerList {
         });
     }
 
-    addCustomerToList(data) {
+    addCustomerToList(data: Customer) {
         this.customers.push(data);
         this.updateList();
     }
 
-    updateCustomerToList(data) {
+    updateCustomerToList(data: Customer) {
         this.customers = this.customers.map(customer => {
             if (customer.id === data.id) {
                 return data;
@@ -105,7 +114,7 @@ class CustomerList {
         this.updateList();
     }
 
-    deleteCustomerToList(data) {
+    deleteCustomerToList(data: Customer) {
         this.customers = this.customers.filter(customer => (customer.id !== data.id));
         this.updateList();
     }

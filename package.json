@@ -7,40 +7,25 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy": "cp -R src/assets dist/assets",
     "api": "php -S localhost:8888 api/server.php",
-    "start": "npm run copy;webpack serve",
-    "build": "npm run copy;webpack"
+    "start": "npm run copy;webpack serve --mode development",
+    "build": "npm run copy;webpack --mode production"
   },
   "author": "Gihovani Filipp <gihovani@gg2.com.br>",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.26.9",
-    "@babel/preset-env": "^7.26.9",
-    "babel-loader": "^9.2.1",
+    "@types/jquery": "^3.5.32",
+    "css-loader": "^7.1.2",
     "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.7.3",
     "webpack": "^5.98.0",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0"
   },
   "jshintConfig": {
-    "devel": true,
-    "browser": true,
-    "undef": true,
-    "unused": true,
-    "esversion": 8,
-    "globals": {
-      "indexedDB": true,
-      "caches": true,
-      "self": true,
-      "module": true,
-      "require": true,
-      "__dirname": true,
-      "__filename": true,
-      "exports": true,
-      "MY_GLOBAL": true,
-      "navigator": true,
-      "console": true,
-      "alert": true,
-      "$": true
-    }
+  },
+  "dependencies": {
+    "jquery": "^3.7.1"
   }
 }
