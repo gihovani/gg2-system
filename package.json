@@ -24,6 +24,16 @@
     "webpack-dev-server": "^5.2.0"
   },
   "jshintConfig": {
+    "devel": true,
+    "browser": true,
+    "undef": true,
+    "unused": true,
+    "esversion": 6,
+    "globals": {
+      "module": true,
+      "require": true,
+      "__dirname": true
+    }
   },
   "dependencies": {
     "jquery": "^3.7.1"
