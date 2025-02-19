@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import {onCustomerCreated, onCustomerUpdated} from '../events/customer';
 import {DataComponent, IComponent} from './IComponent';
 import CustomerService from "../services/CustomerService";

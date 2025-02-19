@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import {IComponent} from "./IComponent";
 
 export class Loading implements IComponent {

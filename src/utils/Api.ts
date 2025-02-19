@@ -1,3 +1,4 @@
+import $ from 'jquery';
 class Api {
     async get(url: string) {
         return $.get(url);

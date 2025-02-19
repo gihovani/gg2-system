@@ -1,7 +1,6 @@
+import $ from 'jquery';
 import CustomerService from '../services/CustomerService';
 import {
-    onCustomerCreated,
-    onCustomerUpdated,
     onCustomerSelected,
     onCustomerDeleted,
     onCustomerListLoaded
@@ -45,12 +44,6 @@ class CustomerList implements IComponent {
     }
 
     bindEvents() {
-        // onCustomerCreated.on('success', (customer: Customer) => {
-        //     this.addCustomerToList(customer);
-        // });
-        // onCustomerUpdated.on('success', (customer: Customer) => {
-        //     this.updateCustomerToList(customer);
-        // });
         onCustomerDeleted.on('success', (customer: Customer) => {
             this.deleteCustomerToList(customer);
         });
@@ -97,21 +90,6 @@ class CustomerList implements IComponent {
         this.customers.forEach(customer => {
             list.append(this.htmlItem(customer));
         });
-    }
-
-    addCustomerToList(data: Customer) {
-        this.customers.push(data);
-        this.updateList();
-    }
-
-    updateCustomerToList(data: Customer) {
-        this.customers = this.customers.map(customer => {
-            if (customer.id === data.id) {
-                return data;
-            }
-            return customer;
-        });
-        this.updateList();
     }
 
     deleteCustomerToList(data: Customer) {
