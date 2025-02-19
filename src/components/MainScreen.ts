@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import {Footer} from './Footer';
 import {Home} from './Home';
 import {Loading} from './Loading';

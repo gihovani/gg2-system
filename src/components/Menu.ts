@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import {IComponent} from "./IComponent";
 import {Home} from "./Home";
 import CustomerForm from "./CustomerForm";
