@@ -29,11 +29,9 @@ class MainScreen {
     }
 
     bindEvents() {
-        if (!this.loading) {
-            new Loading().render().then(content => {
-                this.loading = content
-            });
-        }
+        new Loading().render().then(content => {
+            this.loading = content
+        });
         onScreenSetContent.on('success', async (component: IComponent) => {
             this.setContent(this.loading);
             this.content = component;
