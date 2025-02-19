@@ -2,21 +2,64 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'development', // Ou 'production' para produção
-    entry: './src/App.js',
+    entry: './src/App.ts',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'), // Pasta de saída
-        publicPath: '/gg2-system/dist/', // URL pública dos arquivos (importante!)
+        path: path.resolve(__dirname, 'dist'),
+        // publicPath: '/gg2-system/dist/',
     },
     devServer: {
-        static: './dist', // Pasta dos arquivos estáticos
-        hot: true, // Habilita o Hot Module Replacement (HMR)
+        static: './dist',
+        hot: true,
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
+        ],
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html',
+        })
+    ],
+};
+/*
+
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+
+module.exports = {
+    mode: 'development',
+    entry: './src/App.ts',
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/gg2-system/dist/',
+    },
+    devServer: {
+        static: './dist',
+        hot: true,
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html',
+        }),
+        new ESLintPlugin({
+            extensions: ['.js', '.ts'],
         }),
     ],
     module: {
@@ -27,10 +70,14 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env'],
+                        presets: ['@babel/preset-env', '@babel/preset-typescript'],
                     },
                 },
             },
         ],
     },
+    resolve: {
+        extensions: ['.js', '.ts'],
+    },
 };
+ */

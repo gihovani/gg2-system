@@ -1,0 +1,123 @@
+import CustomerService from '../services/CustomerService';
+import {
+    onCustomerCreated,
+    onCustomerUpdated,
+    onCustomerSelected,
+    onCustomerDeleted,
+    onCustomerListLoaded
+} from '../events/customer';
+import Customer from "../models/Customer";
+import {IComponent} from "./IComponent";
+
+class CustomerList implements IComponent {
+    private list: JQuery<HTMLElement>;
+    private customers: Customer[] = [];
+    private customerService: CustomerService;
+
+    constructor() {
+        this.list = $('');
+        this.customerService = new CustomerService();
+    }
+
+    render(): Promise<JQuery<HTMLElement>> {
+        this.list = $(`<h2 class="subtitle">Lista de Clientes</h2>
+        <table class="table is-bordered is-fullwidth">
+            <thead>
+            <tr>
+                <th><abbr title="ID">ID</abbr></th>
+                <th><abbr title="Name">Nome</abbr></th>
+                <th><abbr title="E-mail">E-mail</abbr></th>
+                <th><abbr title="Actions">#</abbr></th>
+            </tr>
+            </thead>
+            <tbody id="customerList">
+            <tr>
+                <td colspan="4">Nenhum dado encontrado.</td>
+            </tr>
+            </tbody>
+        </table>`);
+        return new Promise<JQuery<HTMLElement>>(async (resolve) => {
+            this.customers = [];
+            await this.loadData();
+            this.bindEvents();
+            resolve(this.list);
+        });
+    }
+
+    bindEvents() {
+        // onCustomerCreated.on('success', (customer: Customer) => {
+        //     this.addCustomerToList(customer);
+        // });
+        // onCustomerUpdated.on('success', (customer: Customer) => {
+        //     this.updateCustomerToList(customer);
+        // });
+        onCustomerDeleted.on('success', (customer: Customer) => {
+            this.deleteCustomerToList(customer);
+        });
+    }
+
+    async loadData() {
+        try {
+            this.customers = <Customer[]>(await this.customerService.read());
+            this.updateList();
+            onCustomerListLoaded.trigger('success', this.customers);
+        } catch (error) {
+            onCustomerListLoaded.trigger('error', error);
+        }
+    }
+
+    htmlItem(customer: Customer) {
+        const id = customer.id ?? '';
+        const tr = $('<tr></tr>');
+        const tdId = $('<td></td>').text(id);
+        const tdName = $('<td></td>').text(customer.name);
+        const tdEmail = $('<td></td>').text(customer.email);
+        const btnEdit = $('<button></button>').text('Alterar');
+        const tdButton = $('<td></td>').addClass(['buttons', 'has-addons', 'is-centered']);
+        btnEdit.on('click', () => {
+            onCustomerSelected.trigger('success', customer);
+        });
+        const btnRemove = $('<button></button>').text('Apagar');
+        btnRemove.on('click', async () => {
+            try {
+                const customer = await this.customerService.delete(id);
+                onCustomerDeleted.trigger('success', customer);
+            } catch (error) {
+                onCustomerDeleted.trigger('error', error);
+            }
+        });
+        tdButton.append([btnEdit, btnRemove]);
+        tr.append([tdId, tdName, tdEmail, tdButton]);
+        return tr;
+    }
+
+    updateList() {
+        const list = this.list.find('tbody#customerList');
+        list.empty();
+        this.customers.forEach(customer => {
+            list.append(this.htmlItem(customer));
+        });
+    }
+
+    addCustomerToList(data: Customer) {
+        this.customers.push(data);
+        this.updateList();
+    }
+
+    updateCustomerToList(data: Customer) {
+        this.customers = this.customers.map(customer => {
+            if (customer.id === data.id) {
+                return data;
+            }
+            return customer;
+        });
+        this.updateList();
+    }
+
+    deleteCustomerToList(data: Customer) {
+        this.customers = this.customers.filter(customer => (customer.id !== data.id));
+        this.updateList();
+    }
+}
+
+export default CustomerList;
