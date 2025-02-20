@@ -27,7 +27,7 @@ abstract class Validator implements ValidatorInterface
 
     private function applyRule($field, $rule)
     {
-        $value = $this->data[$field] ?? null;
+        $value = $this->data[$field] ?? '';
         if ($rule === 'required') {
             if (empty($value)) {
                 $this->addError($field, 'required');

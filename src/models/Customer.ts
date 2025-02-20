@@ -1,12 +1,14 @@
+import {IKeyValue} from "../utils/IKeyValue";
+
 class Customer {
     public id: string;
     public name: string;
     public email: string;
 
-    constructor(data: { id?: string, name: string, email: string }) {
-        this.id = (data.id) ? data.id : '';
-        this.name = data.name;
-        this.email = data.email;
+    constructor(data: IKeyValue) {
+        this.id = (data.id) ? <string>data.id : '';
+        this.name = <string>data.name;
+        this.email = <string>data.email;
     }
 }
 

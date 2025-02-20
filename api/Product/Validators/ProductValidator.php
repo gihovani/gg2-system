@@ -9,6 +9,11 @@ class ProductValidator extends Validator
 {
     public function __construct()
     {
-        parent::__construct(['name' => 'required|min:3|max:100', 'price' => 'required|numeric']);
+        parent::__construct([
+            'title' => 'required|min:3|max:100',
+            'price' => 'required|numeric',
+            'description' => 'required|min:3|max:100',
+            'image_link' => 'required|min:3|max:100',
+        ]);
     }
 }

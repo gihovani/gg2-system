@@ -1,17 +1,26 @@
 [
     {
         "id": "67b70b0d9890b",
-        "name": "Gihovani Demetrio",
-        "price": "334.31"
-    },
-    {
-        "id": "67b71ef526567",
-        "name": "utilidades clinicas",
-        "price": "33.21"
+        "title": "Teste 02",
+        "price": "334",
+        "description": "Descri\u00e7\u00e3o",
+        "image_link": "http:\/\/www.gg2.com.br\/logo.png",
+        "availability": "",
+        "brand": "Nenhuma",
+        "gtin": "",
+        "mpn": "",
+        "condition": ""
     },
     {
         "id": "67b72121593c5",
-        "name": "ewr",
-        "price": "423"
+        "title": "Teste",
+        "price": "423",
+        "description": "GG2",
+        "image_link": "http:\/\/localhost:8080\/assets\/imgs\/logo.png",
+        "availability": "in stock",
+        "brand": "GG2",
+        "gtin": "1234567",
+        "mpn": "9877832",
+        "condition": "new"
     }
 ]
