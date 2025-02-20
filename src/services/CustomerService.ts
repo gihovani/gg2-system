@@ -1,13 +1,10 @@
 import Customer from "../models/Customer";
-import Api from "../utils/Api";
+import {ApiService} from "./IService";
 
-class CustomerService {
-    private readonly url: string;
-    private readonly api: Api;
+class CustomerService extends ApiService {
 
     constructor() {
-        this.url = 'http://localhost:8888/customers';
-        this.api = new Api();
+        super('http://localhost:8888/customers');
     }
 
     async read(id = null): Promise<Customer | Customer[]> {
