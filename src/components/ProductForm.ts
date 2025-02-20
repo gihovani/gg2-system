@@ -34,7 +34,6 @@ class ProductForm extends DataComponent implements IComponent {
         const name = <string>this.name.val();
         const price = parseFloat(<string>this.price.val());
         try {
-            console.log(name, price);
             const product = await this.productService.create({id: '', name, price});
             this.reset();
             onProductCreated.trigger('success', product);
@@ -58,7 +57,7 @@ class ProductForm extends DataComponent implements IComponent {
 
     async handleSubmit(event: Event) {
         event.preventDefault();
-        const id = this.id.val();
+        const id = <string>this.id.val();
         if (id) {
             return await this.update();
         }
@@ -106,15 +105,12 @@ class ProductForm extends DataComponent implements IComponent {
             this.id = this.form.find('#id');
             this.name = this.form.find('#name');
             this.price = this.form.find('#price');
-            console.log(this.name, this.price);
-
             if (this.data && this.data.id) {
                 this.id.val(this.data.id);
                 this.name.val(this.data.name);
                 this.price.val(this.data.price);
                 this.btnNew.removeClass('is-hidden');
             }
-
             this.bindEvents();
             resolve(this.form);
         });

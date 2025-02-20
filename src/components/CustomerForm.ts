@@ -57,7 +57,6 @@ class CustomerForm extends DataComponent implements IComponent {
     async handleSubmit(event: Event) {
         event.preventDefault();
         const id = <string>this.id.val();
-        console.log($(<HTMLFormElement>event.currentTarget).serialize());
         if (id) {
             return await this.update();
         }
@@ -104,7 +103,6 @@ class CustomerForm extends DataComponent implements IComponent {
             this.id = this.form.find('#id');
             this.name = this.form.find('#name');
             this.email = this.form.find('#email');
-
             if (this.data.id) {
                 this.id.val(this.data.id ?? '');
                 this.name.val(this.data.name ?? '');
