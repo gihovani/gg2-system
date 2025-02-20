@@ -1,24 +1,25 @@
 import $ from 'jquery';
-import {onCustomerCreated, onCustomerUpdated} from '../events/customer';
+import {onProductCreated, onProductUpdated} from '../events/product';
 import {DataComponent, IComponent} from './IComponent';
-import CustomerService from "../services/CustomerService";
+import ProductService from "../services/ProductService";
 
-class CustomerForm extends DataComponent implements IComponent {
+
+class ProductForm extends DataComponent implements IComponent {
     private form: JQuery<HTMLFormElement>;
     private id: JQuery<HTMLInputElement>;
     private name: JQuery<HTMLInputElement>;
-    private email: JQuery<HTMLInputElement>;
+    private price: JQuery<HTMLInputElement>;
     private btnNew: JQuery<HTMLInputElement>;
-    private customerService: CustomerService;
+    private productService: ProductService;
 
     constructor() {
         super();
         this.form = $('<form></form>');
         this.id = $('<input />');
         this.name = $('<input />');
-        this.email = $('<input />');
+        this.price = $('<input />');
         this.btnNew = $('<button></button>');
-        this.customerService = new CustomerService();
+        this.productService = new ProductService();
     }
 
     reset() {
@@ -26,38 +27,38 @@ class CustomerForm extends DataComponent implements IComponent {
         this.form.trigger('reset');
         this.id.val('');
         this.name.val('');
-        this.email.val('');
+        this.price.val(''); // Limpe o campo de preço
     }
 
     async create() {
         const name = <string>this.name.val();
-        const email = <string>this.email.val();
+        const price = parseFloat(<string>this.price.val());
         try {
-            const customer = await this.customerService.create({id: '', name, email});
+            console.log(name, price);
+            const product = await this.productService.create({id: '', name, price});
             this.reset();
-            onCustomerCreated.trigger('success', customer);
+            onProductCreated.trigger('success', product);
         } catch (error) {
-            onCustomerCreated.trigger('error', error);
+            onProductCreated.trigger('error', error);
         }
     }
 
     async update() {
         const id = <string>this.id.val();
         const name = <string>this.name.val();
-        const email = <string>this.email.val();
+        const price = parseFloat(<string>this.price.val());
         try {
-            const customer = await this.customerService.update(id, {id, name, email});
+            const product = await this.productService.update(id, {id, name, price});
             this.reset();
-            onCustomerUpdated.trigger('success', customer);
+            onProductUpdated.trigger('success', product);
         } catch (error) {
-            onCustomerUpdated.trigger('error', error);
+            onProductUpdated.trigger('error', error);
         }
     }
 
     async handleSubmit(event: Event) {
         event.preventDefault();
-        const id = <string>this.id.val();
-        console.log($(<HTMLFormElement>event.currentTarget).serialize());
+        const id = this.id.val();
         if (id) {
             return await this.update();
         }
@@ -65,8 +66,8 @@ class CustomerForm extends DataComponent implements IComponent {
     }
 
     render(): Promise<JQuery<HTMLElement>> {
-        this.form = $(`<form id="customerForm">
-            <h1 class="title">Cadastro de Clientes</h1>
+        this.form = $(`<form id="productForm">
+            <h1 class="title">Cadastro de Produtos</h1>
             <input type="hidden" id="id" name="id">
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
@@ -82,12 +83,12 @@ class CustomerForm extends DataComponent implements IComponent {
             </div>
             <div class="field is-horizontal">
                 <div class="field-label is-normal">
-                    <label class="label" for="email">E-mail:</label>
+                    <label class="label" for="price">Preço:</label>
                 </div>
                 <div class="field-body">
                     <div class="field">
                         <div class="control is-expanded">
-                            <input class="input" type="email" id="email" name="email" required>
+                            <input class="input" type="text" id="price" name="price" required>
                         </div>
                     </div>
                 </div>
@@ -99,18 +100,21 @@ class CustomerForm extends DataComponent implements IComponent {
                 </div>
             </div>
         </form>`);
+
         return new Promise<JQuery<HTMLElement>>(resolve => {
             this.btnNew = this.form.find('button.btn-new');
             this.id = this.form.find('#id');
             this.name = this.form.find('#name');
-            this.email = this.form.find('#email');
+            this.price = this.form.find('#price');
+            console.log(this.name, this.price);
 
-            if (this.data.id) {
-                this.id.val(this.data.id ?? '');
-                this.name.val(this.data.name ?? '');
-                this.email.val(this.data.email ?? '');
+            if (this.data && this.data.id) {
+                this.id.val(this.data.id);
+                this.name.val(this.data.name);
+                this.price.val(this.data.price);
                 this.btnNew.removeClass('is-hidden');
             }
+
             this.bindEvents();
             resolve(this.form);
         });
@@ -122,4 +126,4 @@ class CustomerForm extends DataComponent implements IComponent {
     }
 }
 
-export default CustomerForm;
+export default ProductForm;

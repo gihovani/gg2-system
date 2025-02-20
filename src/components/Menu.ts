@@ -4,6 +4,8 @@ import {Home} from "./Home";
 import CustomerForm from "./CustomerForm";
 import CustomerList from "./CustomerList";
 import {onScreenSetContent} from "../events/screen";
+import ProductForm from "./ProductForm";
+import ProductList from "./ProductList";
 
 export class Menu implements IComponent {
     private nav: JQuery<HTMLElement>;
@@ -31,6 +33,8 @@ export class Menu implements IComponent {
     <div class="navbar-start">
       <a class="navbar-item" href="#" data-link="customer-create">Cadastro de Clientes</a>
       <a class="navbar-item" href="#" data-link="customer-list">Listagem de Clientes</a>
+      <a class="navbar-item" href="#" data-link="product-create">Cadastro de Produtos</a>
+      <a class="navbar-item" href="#" data-link="product-list">Listagem de Produtos</a>
       <a class="navbar-item" href="#" data-link="contact-form">Contact</a>
     </div>
   </div>
@@ -68,6 +72,14 @@ export class Menu implements IComponent {
         this.nav.find(`[data-link="customer-list"]`).on('click', () => {
             closeNavBurger();
             onScreenSetContent.trigger('success', new CustomerList());
+        });
+        this.nav.find(`[data-link="product-create"]`).on('click', () => {
+            closeNavBurger();
+            onScreenSetContent.trigger('success', new ProductForm());
+        });
+        this.nav.find(`[data-link="product-list"]`).on('click', () => {
+            closeNavBurger();
+            onScreenSetContent.trigger('success', new ProductList());
         });
         this.nav.find(`[data-link="contact-form"]`).on('click', () => {
             closeNavBurger();

@@ -15,4 +15,5 @@ $container->set('Request', function () {
 });
 $router = new \Api\Utils\Router($container->get('Request'));
 \Api\Customer\CustomerRoutes::addRoutes($container, $router);
+\Api\Product\ProductRoutes::addRoutes($container, $router);
 $router->dispatch($container);
