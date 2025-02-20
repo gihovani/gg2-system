@@ -23,7 +23,7 @@ class ProductForm extends DataComponent implements IComponent {
     }
 
     reset() {
-        this.btnNew.addClass('is-hidden');
+        this.btnNew.addClass('visually-hidden');
         this.form.trigger('reset');
         this.id.val('');
         this.name.val('');
@@ -65,37 +65,25 @@ class ProductForm extends DataComponent implements IComponent {
     }
 
     render(): Promise<JQuery<HTMLElement>> {
-        this.form = $(`<form id="productForm">
+        this.form = $(`<form id="product-create">
             <h1 class="title">Cadastro de Produtos</h1>
             <input type="hidden" id="id" name="id">
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label" for="name">Nome:</label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control is-expanded">
-                            <input class="input" type="text" id="name" name="name" required>
-                        </div>
-                    </div>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="name">Nome:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="name" name="name" autocomplete="off" required>
                 </div>
             </div>
-            <div class="field is-horizontal">
-                <div class="field-label is-normal">
-                    <label class="label" for="price">Preço:</label>
-                </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control is-expanded">
-                            <input class="input" type="text" id="price" name="price" required>
-                        </div>
-                    </div>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="price">Preço:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="price" name="price" autocomplete="off" required>
                 </div>
             </div>
-            <div class="field is-grouped is-grouped-right">
-                <div class="control is-fullwidth">
-                    <button class="button is-parent is-hidden btn-new" type="button">Novo</button>
-                    <button class="button is-primary" type="submit">Salvar</button>
+            <div class="row">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button class="btn btn-secondary visually-hidden btn-new" type="reset">Novo</button>
+                    <button class="btn btn-primary" type="submit">Salvar</button>
                 </div>
             </div>
         </form>`);
@@ -109,7 +97,7 @@ class ProductForm extends DataComponent implements IComponent {
                 this.id.val(this.data.id);
                 this.name.val(this.data.name);
                 this.price.val(this.data.price);
-                this.btnNew.removeClass('is-hidden');
+                this.btnNew.removeClass('visually-hidden');
             }
             this.bindEvents();
             resolve(this.form);

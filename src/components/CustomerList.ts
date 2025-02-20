@@ -19,8 +19,8 @@ class CustomerList implements IComponent {
     }
 
     render(): Promise<JQuery<HTMLElement>> {
-        this.list = $(`<h2 class="subtitle">Lista de Clientes</h2>
-        <table class="table is-bordered is-fullwidth">
+        this.list = $(`<h2>Lista de Clientes</h2>
+        <table class="table table-bordered" id="customer-list">
             <thead>
             <tr>
                 <th><abbr title="ID">ID</abbr></th>
@@ -29,7 +29,7 @@ class CustomerList implements IComponent {
                 <th><abbr title="Actions">#</abbr></th>
             </tr>
             </thead>
-            <tbody id="customerList">
+            <tbody>
             <tr>
                 <td colspan="4">Nenhum dado encontrado.</td>
             </tr>
@@ -65,12 +65,12 @@ class CustomerList implements IComponent {
         const tdId = $('<td></td>').text(id);
         const tdName = $('<td></td>').text(customer.name);
         const tdEmail = $('<td></td>').text(customer.email);
-        const btnEdit = $('<button></button>').text('Alterar');
-        const tdButton = $('<td></td>').addClass(['buttons', 'has-addons', 'is-centered']);
+        const btnEdit = $('<button></button>').addClass(['btn','btn-secondary']).text('Alterar');
+        const tdButton = $('<td></td>');
         btnEdit.on('click', () => {
             onCustomerSelected.trigger('success', customer);
         });
-        const btnRemove = $('<button></button>').text('Apagar');
+        const btnRemove = $('<button></button>').addClass(['btn','btn-danger']).text('Apagar');
         btnRemove.on('click', async () => {
             try {
                 const customer = await this.customerService.delete(id);
@@ -85,7 +85,7 @@ class CustomerList implements IComponent {
     }
 
     updateList() {
-        const list = this.list.find('tbody#customerList');
+        const list = this.list.find('tbody');
         list.empty();
         this.customers.forEach(customer => {
             list.append(this.htmlItem(customer));

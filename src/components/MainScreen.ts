@@ -11,7 +11,6 @@ class MainScreen {
     private footer: IComponent;
     private content: IComponent;
     private loading: JQuery<HTMLElement>;
-    private isLoading: boolean = false;
 
     constructor(container: JQuery<HTMLElement>) {
         this.container = container;
@@ -46,20 +45,18 @@ class MainScreen {
     }
 
     loadingContent(): JQuery<HTMLElement> {
-        const loading = $('<div class="loading-overlay is-hidden"></div>');
-        const loadingContent = $('<div class="loading-content"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>');
+        const loading = $('<div class="fixed-top progress visually-hidden" style="height: 5px"></div>');
+        const loadingContent = $('<div class="progress-bar progress-bar-striped progress-bar-animated" style="transition-duration: 500ms"></div>');
         loading.append(loadingContent);
         return loading;
     }
 
     showLoading() {
-        this.isLoading = true;
-        this.loading.removeClass('is-hidden');
+        this.loading.removeClass(['visually-hidden']).addClass('w-100');
     }
 
     hideLoading() {
-        this.isLoading = false;
-        this.loading.addClass('is-hidden');
+        this.loading.removeClass('w-100').addClass(['visually-hidden']);
     }
 }
 

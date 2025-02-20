@@ -19,8 +19,8 @@ class ProductList implements IComponent {
     }
 
     render(): Promise<JQuery<HTMLElement>> {
-        this.list = $(`<h2 class="subtitle">Lista de Produtos</h2>
-        <table class="table is-bordered is-fullwidth">
+        this.list = $(`<h2>Lista de Produtos</h2>
+        <table class="table table-bordered" id="product-list">
             <thead>
             <tr>
                 <th><abbr title="ID">ID</abbr></th>
@@ -29,7 +29,7 @@ class ProductList implements IComponent {
                 <th><abbr title="Actions">#</abbr></th>
             </tr>
             </thead>
-            <tbody id="productList">
+            <tbody>
             <tr>
                 <td colspan="4">Nenhum dado encontrado.</td>
             </tr>
@@ -64,12 +64,12 @@ class ProductList implements IComponent {
         const tdId = $('<td></td>').text(id);
         const tdName = $('<td></td>').text(product.name); // Ajuste conforme a estrutura do seu XML
         const tdPrice = $('<td></td>').text(product.price); // Ajuste conforme a estrutura do seu XML
-        const btnEdit = $('<button></button>').text('Alterar');
-        const tdButton = $('<td></td>').addClass(['buttons', 'has-addons', 'is-centered']);
+        const btnEdit = $('<button></button>').addClass(['btn','btn-secondary']).text('Alterar');
+        const tdButton = $('<td></td>');
         btnEdit.on('click', () => {
             onProductSelected.trigger('success', product);
         });
-        const btnRemove = $('<button></button>').text('Apagar');
+        const btnRemove = $('<button></button>').addClass(['btn','btn-danger']).text('Apagar');
         btnRemove.on('click', async () => {
             try {
                 const product = await this.productService.delete(id);
@@ -84,7 +84,7 @@ class ProductList implements IComponent {
     }
 
     updateList() {
-        const list = this.list.find('tbody#productList');
+        const list = this.list.find('tbody');
         list.empty();
         this.products.forEach(product => {
             list.append(this.htmlItem(product));

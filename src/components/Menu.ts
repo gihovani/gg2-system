@@ -17,26 +17,29 @@ export class Menu implements IComponent {
     render(): Promise<JQuery<HTMLElement> | HTMLElement> {
         this.nav = $(`
 <nav class="navbar container" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="#" data-link="home">
-      <img src="assets/imgs/logo.png" alt="Logo">
-    </a>
-
-    <a id="menu" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      <a class="navbar-item" href="#" data-link="customer-create">Cadastro de Clientes</a>
-      <a class="navbar-item" href="#" data-link="customer-list">Listagem de Clientes</a>
-      <a class="navbar-item" href="#" data-link="product-create">Cadastro de Produtos</a>
-      <a class="navbar-item" href="#" data-link="product-list">Listagem de Produtos</a>
-      <a class="navbar-item" href="#" data-link="contact-form">Contact</a>
-    </div>
+  <a class="navbar-brand" href="#home" data-link="true">
+    <img src="assets/imgs/logo.png" alt="Logo">
+  </a>
+  <button id="menu" class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-nav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="navbar-collapse collapse" id="navbar-nav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#customer-create" data-link="true">Cadastro de Clientes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#customer-list" data-link="true">Listagem de Clientes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#product-create" data-link="true">Cadastro de Produtos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#product-list" data-link="true">Listagem de Produtos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#contact-form" data-link="true">Contact</a>
+      </li>
   </div>
 </nav>
     `);
@@ -51,19 +54,32 @@ export class Menu implements IComponent {
         if (!navBurger.length) {
             return;
         }
-        const target = navBurger.data('target');
-        const $target = this.nav.find(`#${target}`);
+        const target = navBurger.data('bs-target');
+        const $target = this.nav.find(`${target}`);
         const closeNavBurger = () => {
-            navBurger.removeClass('is-active');
-            $target.removeClass('is-active');
+            navBurger.removeClass('collapsed');
+            $target.removeClass('show');
         };
         navBurger.on('click', () => {
-            navBurger.toggleClass('is-active');
-            $target.toggleClass('is-active');
+            navBurger.toggleClass('collapsed');
+            $target.toggleClass('show');
         });
-        this.nav.find('[data-link="home"]').on('click', () => {
+        this.nav.find('[data-link="true"]').on('click', (e) => {
             closeNavBurger();
-            onScreenSetContent.trigger('success', new Home());
+            const href = $(e.currentTarget).attr('href');
+            let screen;
+            if (href === "#customer-create") {
+                screen = new CustomerForm();
+            } else if (href === "#customer-list") {
+                screen = new CustomerList();
+            } else if (href === "#product-create") {
+                screen = new ProductForm();
+            } else if (href === "#product-list") {
+                screen = new ProductList();
+            } else {
+                screen = new Home();
+            }
+            onScreenSetContent.trigger('success', screen);
         });
         this.nav.find(`[data-link="customer-create"]`).on('click', () => {
             closeNavBurger();
