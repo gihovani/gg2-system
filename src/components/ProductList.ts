@@ -25,6 +25,7 @@ class ProductList implements IComponent {
             <tr>
                 <th><abbr title="ID">ID</abbr></th>
                 <th><abbr title="Name">Nome</abbr></th>
+                <th><abbr title="Brand">Marca</abbr></th>
                 <th><abbr title="Price">Preço</abbr></th>
                 <th><abbr title="Actions">#</abbr></th>
             </tr>
@@ -62,8 +63,9 @@ class ProductList implements IComponent {
         const id = product.id ?? ''; // Ajuste conforme a estrutura do seu XML
         const tr = $('<tr></tr>');
         const tdId = $('<td></td>').text(id);
-        const tdName = $('<td></td>').text(product.name); // Ajuste conforme a estrutura do seu XML
-        const tdPrice = $('<td></td>').text(product.price); // Ajuste conforme a estrutura do seu XML
+        const tdTitle = $('<td></td>').text(product.title);
+        const tdBrand = $('<td></td>').text(product.brand);
+        const tdPrice = $('<td></td>').text(product.price);
         const btnEdit = $('<button></button>').addClass(['btn','btn-secondary']).text('Alterar');
         const tdButton = $('<td></td>');
         btnEdit.on('click', () => {
@@ -79,7 +81,7 @@ class ProductList implements IComponent {
             }
         });
         tdButton.append([btnEdit, btnRemove]);
-        tr.append([tdId, tdName, tdPrice, tdButton]);
+        tr.append([tdId, tdTitle, tdBrand, tdPrice, tdButton]);
         return tr;
     }
 

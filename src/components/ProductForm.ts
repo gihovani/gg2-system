@@ -1,112 +1,78 @@
-import $ from 'jquery';
 import {onProductCreated, onProductUpdated} from '../events/product';
-import {DataComponent, IComponent} from './IComponent';
 import ProductService from "../services/ProductService";
+import Product from "../models/Product";
+import FormComponent, {FormFields} from "./IComponent";
+import {IKeyValue} from "../utils/IKeyValue";
 
 
-class ProductForm extends DataComponent implements IComponent {
-    private form: JQuery<HTMLFormElement>;
-    private id: JQuery<HTMLInputElement>;
-    private name: JQuery<HTMLInputElement>;
-    private price: JQuery<HTMLInputElement>;
-    private btnNew: JQuery<HTMLInputElement>;
+class ProductForm extends FormComponent<Product> {
     private productService: ProductService;
 
     constructor() {
         super();
-        this.form = $('<form></form>');
-        this.id = $('<input />');
-        this.name = $('<input />');
-        this.price = $('<input />');
-        this.btnNew = $('<button></button>');
         this.productService = new ProductService();
     }
 
-    reset() {
-        this.btnNew.addClass('visually-hidden');
-        this.form.trigger('reset');
-        this.id.val('');
-        this.name.val('');
-        this.price.val(''); // Limpe o campo de preço
+    getFormData(): Product {
+        const data: IKeyValue = this.getFormValues();
+        return new Product(data);
     }
 
-    async create() {
-        const name = <string>this.name.val();
-        const price = parseFloat(<string>this.price.val());
+    async create(product: Product): Promise<any> {
         try {
-            const product = await this.productService.create({id: '', name, price});
+            const newProduct = await this.productService.create(product);
             this.reset();
-            onProductCreated.trigger('success', product);
+            onProductCreated.trigger('success', newProduct);
         } catch (error) {
             onProductCreated.trigger('error', error);
         }
     }
 
-    async update() {
-        const id = <string>this.id.val();
-        const name = <string>this.name.val();
-        const price = parseFloat(<string>this.price.val());
+    async update(id: string, product: Product): Promise<any> {
         try {
-            const product = await this.productService.update(id, {id, name, price});
+            const updatedProduct = await this.productService.update(id, product);
             this.reset();
-            onProductUpdated.trigger('success', product);
+            onProductUpdated.trigger('success', updatedProduct);
         } catch (error) {
             onProductUpdated.trigger('error', error);
         }
     }
 
-    async handleSubmit(event: Event) {
-        event.preventDefault();
-        const id = <string>this.id.val();
-        if (id) {
-            return await this.update();
-        }
-        return await this.create();
-    }
-
-    render(): Promise<JQuery<HTMLElement>> {
-        this.form = $(`<form id="product-create">
-            <h1 class="title">Cadastro de Produtos</h1>
-            <input type="hidden" id="id" name="id">
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label" for="name">Nome:</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="text" id="name" name="name" autocomplete="off" required>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label" for="price">Preço:</label>
-                <div class="col-sm-10">
-                    <input class="form-control" type="text" id="price" name="price" autocomplete="off" required>
-                </div>
-            </div>
-            <div class="row">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <button class="btn btn-secondary visually-hidden btn-new" type="reset">Novo</button>
-                    <button class="btn btn-primary" type="submit">Salvar</button>
-                </div>
-            </div>
-        </form>`);
-
-        return new Promise<JQuery<HTMLElement>>(resolve => {
-            this.btnNew = this.form.find('button.btn-new');
-            this.id = this.form.find('#id');
-            this.name = this.form.find('#name');
-            this.price = this.form.find('#price');
-            if (this.data && this.data.id) {
-                this.id.val(this.data.id);
-                this.name.val(this.data.name);
-                this.price.val(this.data.price);
-                this.btnNew.removeClass('visually-hidden');
-            }
-            this.bindEvents();
-            resolve(this.form);
-        });
-    }
-
-    bindEvents() {
-        this.btnNew.on('click', this.reset.bind(this));
-        this.form.on('submit', this.handleSubmit.bind(this));
+    getFormFields(): FormFields[] {
+        return [
+            {type: 'hidden', id: 'id', name: 'id'},
+            {type: 'text', label: 'Título', id: 'title', name: 'title', required: true},
+            {type: 'textarea', label: 'Descrição', id: 'description', name: 'description', required: true},
+            {type: 'number', label: 'Preço', id: 'price', name: 'price', required: true},
+            {type: 'url', label: 'Link da Imagem', id: 'image_link', name: 'image_link', required: true},
+            {
+                type: 'select', label: 'Disponibilidade', id: 'availability', name: 'availability',
+                options: [{
+                    label: 'in stock',
+                    value: 'in stock'
+                }, {
+                    label: 'out of stock',
+                    value: 'out of stock'
+                }, {
+                    label: 'preorder',
+                    value: 'preorder'
+                }]
+            },
+            {type: 'text', label: 'Marca', id: 'brand', name: 'brand'},
+            {type: 'text', label: 'GTIN', id: 'gtin', name: 'gtin'},
+            {type: 'text', label: 'MPN', id: 'mpn', name: 'mpn'},
+            {
+                type: 'select', label: 'Condição', id: 'condition', name: 'condition',
+                options: [{
+                    label: 'new', value: 'new'
+                }, {
+                    label: 'used', value: 'used'
+                }, {
+                    label: 'refurbished', value: 'refurbished'
+                }]
+            },
+            // ... Adicione outros campos aqui
+        ];
     }
 }
 
