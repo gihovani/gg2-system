@@ -60,10 +60,6 @@ export class Menu implements IComponent {
             navBurger.removeClass('collapsed');
             $target.removeClass('show');
         };
-        navBurger.on('click', () => {
-            navBurger.toggleClass('collapsed');
-            $target.toggleClass('show');
-        });
         this.nav.find('[data-link="true"]').on('click', (e) => {
             closeNavBurger();
             const href = $(e.currentTarget).attr('href');
@@ -80,26 +76,6 @@ export class Menu implements IComponent {
                 screen = new Home();
             }
             onScreenSetContent.trigger('success', screen);
-        });
-        this.nav.find(`[data-link="customer-create"]`).on('click', () => {
-            closeNavBurger();
-            onScreenSetContent.trigger('success', new CustomerForm());
-        });
-        this.nav.find(`[data-link="customer-list"]`).on('click', () => {
-            closeNavBurger();
-            onScreenSetContent.trigger('success', new CustomerList());
-        });
-        this.nav.find(`[data-link="product-create"]`).on('click', () => {
-            closeNavBurger();
-            onScreenSetContent.trigger('success', new ProductForm());
-        });
-        this.nav.find(`[data-link="product-list"]`).on('click', () => {
-            closeNavBurger();
-            onScreenSetContent.trigger('success', new ProductList());
-        });
-        this.nav.find(`[data-link="contact-form"]`).on('click', () => {
-            closeNavBurger();
-            onScreenSetContent.trigger('success', new Home());
         });
     }
 }
