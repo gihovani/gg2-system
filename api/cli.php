@@ -14,8 +14,14 @@ With the create-products, refresh-data-base
 }
 $command = $argv[1];
 if ($command === 'create-products') {
-    $xml = new \Api\Utils\SitemapReader(BP . '../xml/example.xml');
-    var_dump($xml->items());
+    $repository = new \Api\Product\Repositories\JsonProductRepository(DATABASE_PRODUCTS);
+    try {
+        $import = new \Api\Product\Command\ProductImportFromSitemap(BP . '../xml/surya.xml', $repository);
+        $import->execute();
+    } catch (Exception $e) {
+        print $e->getMessage() . PHP_EOL;
+    }
+
     exit;
 }
 if ($command === 'refresh-data-base') {

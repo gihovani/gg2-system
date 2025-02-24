@@ -16,6 +16,18 @@ class SitemapReader
         $this->xml = $xml;
     }
 
+    private function formatPrice(string $price): float
+    {
+        $price = str_replace(' BRL', '', $price);
+        return floatval($price);
+    }
+
+    private function formatWeight(string $weight): float
+    {
+        $weight = str_replace(' kg', '', $weight);
+        return floatval($weight);
+    }
+
     public function items(array $keys = [], $namespaces = ['g']): array
     {
         $items = [];
@@ -29,20 +41,22 @@ class SitemapReader
                     }
                 }
             }
+            $price = $this->formatPrice($data['price'] ?? '');
+            $weight = $this->formatWeight($data['shipping_weight'] ?? '');
             $item = [
                 'id' => $data['id'] ?? '',
                 'title' => $data['title'] ?? '',
                 'description' => $data['description'] ?? '',
                 'link' => $data['link'] ?? '',
                 'image_link' => $data['image_link'] ?? '',
-                'price' => $data['price'] ?? '',
+                'price' => $price,
                 'sale_price' => $data['sale_price'] ?? '',
                 'sale_price_effective_date' => $data['sale_price_effective_date'] ?? '',
                 'brand' => $data['brand'] ?? '',
                 'gtin' => $data['gtin'] ?? '',
                 'mpn' => $data['mpn'] ?? '',
                 'condition' => $data['condition'] ?? '',
-                'shipping_weight' => $data['shipping_weight'] ?? '',
+                'shipping_weight' => $weight,
                 'availability' => $data['availability'] ?? '',
                 'sku' => $data['sku'] ?? '',
                 'product_type' => $data['product_type'] ?? '',

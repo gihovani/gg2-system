@@ -41,9 +41,20 @@ class ProductForm extends FormComponent<Product> {
     getFormFields(): FormFields[] {
         return [
             {type: 'hidden', id: 'id', name: 'id'},
+            {type: 'text', label: 'SKU', id: 'sku', name: 'sku', required: true},
             {type: 'text', label: 'Título', id: 'title', name: 'title', required: true},
             {type: 'textarea', label: 'Descrição', id: 'description', name: 'description', required: true},
-            {type: 'number', label: 'Preço', id: 'price', name: 'price', required: true},
+            {type: 'decimal', label: 'Preço', id: 'price', name: 'price', required: true},
+            {type: 'decimal', label: 'Preço promocional', id: 'sale_price', name: 'sale_price'},
+            {
+                type: 'text',
+                label: 'Data de vigência do preço promocional',
+                id: 'sale_price_effective_date',
+                name: 'sale_price_effective_date'
+            },
+            {type: 'decimal', label: 'Peso', id: 'shipping_weight', name: 'shipping_weight', required: true},
+            {type: 'text', label: 'Tipo do Produto', id: 'product_type', name: 'product_type', required: true},
+            {type: 'url', label: 'Link', id: 'link', name: 'link', required: true},
             {type: 'url', label: 'Link da Imagem', id: 'image_link', name: 'image_link', required: true},
             {
                 type: 'select', label: 'Disponibilidade', id: 'availability', name: 'availability',
@@ -71,7 +82,14 @@ class ProductForm extends FormComponent<Product> {
                     label: 'refurbished', value: 'refurbished'
                 }]
             },
-            // ... Adicione outros campos aqui
+            {
+                type: 'select', label: 'Existe Identificador?', id: 'identifier_exists', name: 'identifier_exists',
+                options: [{
+                    label: 'yes', value: 'yes'
+                }, {
+                    label: 'no', value: 'no'
+                }]
+            },
         ];
     }
 }
