@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" xmlns:c="http://base.google.com/ns/1.0" version="2.0" encoding="utf-8">
+ <channel>
+  <item>
+   <g:id>1</g:id>
+   <g:title>Marcador de Instrumentos 60un - Prisma</g:title>
+   <g:description>Caixa com 60 unidades.</g:description>
+   <g:link>https://localhost/marcador-de-instrumentos-60un-prisma.html</g:link>
+   <g:image_link>https://localhost/media/catalog/product/0/0/001001000_3.jpg</g:image_link>
+   <g:price>17.99 BRL</g:price>
+   <g:sale_price> </g:sale_price>
+   <g:sale_price_effective_date> </g:sale_price_effective_date>
+   <g:brand>Prisma</g:brand>
+   <g:gtin>7898492330162</g:gtin>
+   <g:condition>new</g:condition>
+   <g:shipping_weight>29.00 kg</g:shipping_weight>
+   <g:availability>in stock</g:availability>
+   <g:sku>001001000</g:sku>
+   <g:product_type>Equipamentos, Periféricos e Peças de Mão &gt; Acessorios</g:product_type>
+  </item>
+  <item>
+   <g:id>21</g:id>
+   <g:title>Marcador de Instrumentos com 60un - Maquira</g:title>
+   <g:description>Embalagem com 60 unidades.</g:description>
+   <g:link>https://localhost/marcador-de-instrumentos-com-60un-maquira.html</g:link>
+   <g:image_link>https://localhost/media/catalog/product/0/0/001077000_1.jpg</g:image_link>
+   <g:price>18.90 BRL</g:price>
+   <g:sale_price> </g:sale_price>
+   <g:sale_price_effective_date> </g:sale_price_effective_date>
+   <g:brand>Maquira</g:brand>
+   <g:gtin>0000010770016</g:gtin>
+   <g:condition>new</g:condition>
+   <g:shipping_weight>0.00 kg</g:shipping_weight>
+   <g:availability>in stock</g:availability>
+   <g:sku>001077000</g:sku>
+   <g:product_type>Instrumentos Odontologicos &gt; Acessorios</g:product_type>
+  </item>
+  <item>
+   <g:id>184385</g:id>
+   <g:title>Compressor de Ar sem Oleo Super Inox 2HP 60 litros - Cristofoli</g:title>
+   <g:description>O Compressor de ar odontológico da Cristofoli é um equipamento essencial para consultórios e clínicas que buscam eficiência, segurança e qualidade no fornecimento de ar comprimido. Projetado para atender às exigências do setor odontológico e médico, oferece um sistema isento de óleo, garantindo um ar puro e livre de contaminantes. Com um design compacto, silencioso e de alta potência, conta com um reservatório 100% em aço inox, proporcionando maior durabilidade e resistência. Sua tecnologia avançada permite um desempenho confiável, atendendo diferentes demandas com máxima eficiência.</g:description>
+   <g:link>https://localhost/compressor-de-ar-sem-oleo-super-inox-2hp-60-litros-cristofoli.html</g:link>
+   <g:image_link>https://localhost/media/catalog/product/c/o/compressor-60l-2hp-cristofoli_1_3.jpg</g:image_link>
+   <g:price>7990.00 BRL</g:price>
+   <g:sale_price> </g:sale_price>
+   <g:sale_price_effective_date> </g:sale_price_effective_date>
+   <g:brand>Cristofoli</g:brand>
+   <g:gtin>78989636685960</g:gtin>
+   <g:condition>new</g:condition>
+   <g:shipping_weight>0.00 kg</g:shipping_weight>
+   <g:availability>in stock</g:availability>
+   <g:sku>394990000</g:sku>
+   <g:product_type>Equipamentos, Periféricos e Peças de Mão &gt; Periféricos</g:product_type>
+  </item>
+  <item>
+   <g:id>184430</g:id>
+   <g:title>Pigmento Make Smile 2,5 gramas - OralTech</g:title>
+   <g:link>https://localhost/pigmento-make-smile-2-5-gramas-oraltech.html</g:link>
+   <g:price>0.00 BRL</g:price>
+   <g:sale_price> </g:sale_price>
+   <g:sale_price_effective_date> </g:sale_price_effective_date>
+   <g:brand>Oraltech</g:brand>
+   <g:condition>new</g:condition>
+   <g:shipping_weight>0.00 kg</g:shipping_weight>
+   <g:availability>in stock</g:availability>
+   <g:sku>233995000</g:sku>
+   <g:identifier_exists>no</g:identifier_exists>
+   <g:product_type>Protese Laboratorial &gt; Resinas Acrílicas Caracterização</g:product_type>
+  </item>
+ </channel>
+  <config>
+   <system>Magento 2</system>
+   <extension>Magmodules_GoogleShopping</extension>
+   <version>1.2.6</version>
+   <magento_version>2.4.5-p2</magento_version>
+   <time>30.1 minutes</time>
+   <date>20 de fevereiro de 2025 10:00</date>
+  </config>
+</rss>

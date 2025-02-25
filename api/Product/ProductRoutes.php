@@ -12,7 +12,7 @@ class ProductRoutes implements RoutesInterface
     public static function addRoutes(Container $container, Router $router)
     {
         $container->set('ProductRepositoryInterface', function () {
-            return new \Api\Product\Repositories\JsonProductRepository(BP . 'data/products.json');
+            return new \Api\Product\Repositories\JsonProductRepository(DATABASE_PRODUCTS);
         });
         $container->set('ProductValidator', function () {
             return new \Api\Product\Validators\ProductValidator();

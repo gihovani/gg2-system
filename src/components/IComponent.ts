@@ -81,6 +81,9 @@ abstract class FormComponent<T> extends DataComponent implements IComponent {
                 case 'textarea':
                     input = $(`<textarea class="form-control" id="${field.id}" name="${field.name}"></textarea>`);
                     break;
+                case 'decimal':
+                    input = $(`<input class="form-control" type="number" id="${field.id}" name="${field.name}" autocomplete="off" step="0.01" min="0">`);
+                    break;
                 default:
                     input = $(`<input class="form-control" type="${field.type}" id="${field.id}" name="${field.name}" autocomplete="off">`);
                     break;

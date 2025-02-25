@@ -12,7 +12,7 @@ class CustomerRoutes implements RoutesInterface
     public static function addRoutes(Container $container, Router $router)
     {
         $container->set('CustomerRepositoryInterface', function () {
-            return new \Api\Customer\Repositories\JsonCustomerRepository(BP . 'data/customers.json');
+            return new \Api\Customer\Repositories\JsonCustomerRepository(DATABASE_CUSTOMERS);
         });
         $container->set('CustomerValidator', function () {
             return new \Api\Customer\Validators\CustomerValidator();
